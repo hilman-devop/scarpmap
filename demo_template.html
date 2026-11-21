@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAMA}} — Cafe di {{KOTA}}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Georgia, sans-serif; color: #3e2c22;
+         background: #faf6f1; line-height: 1.6; }
+  .hero { background: linear-gradient(rgba(43,28,20,.72), rgba(43,28,20,.72)),
+          url('{{FOTO_HERO}}') center/cover; color: #fff; text-align: center;
+          padding: 110px 20px 90px; }
+  .hero h1 { font-size: 2.6em; letter-spacing: 1px; }
+  .hero p { font-size: 1.15em; opacity: .92; margin-top: 10px; }
+  .badge { display: inline-block; background: #c08a4b; color: #fff;
+           padding: 4px 16px; border-radius: 20px; font-size: .85em;
+           margin-bottom: 18px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+  h2 { text-align: center; color: #5a3d2b; margin-bottom: 6px;
+       font-size: 1.7em; }
+  .sub { text-align: center; color: #9c7a5f; margin-bottom: 30px; }
+  .galeri { display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px; }
+  .galeri img { width: 100%; height: 200px; object-fit: cover;
+                border-radius: 10px; }
+  .menu { background: #fff; border-radius: 14px; padding: 26px 30px;
+          box-shadow: 0 2px 14px rgba(90,61,43,.08); }
+  .menu-item { display: flex; justify-content: space-between;
+               padding: 10px 0; border-bottom: 1px dashed #e5d5c5; }
+  .menu-item:last-child { border-bottom: none; }
+  .harga { color: #c08a4b; font-weight: bold; white-space: nowrap;
+           margin-left: 16px; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .kartu { background: #fff; border-radius: 14px; padding: 22px;
+           box-shadow: 0 2px 14px rgba(90,61,43,.08); }
+  .kartu h3 { color: #5a3d2b; margin-bottom: 10px; }
+  .tombol { display: block; text-align: center; padding: 14px;
+            border-radius: 10px; font-weight: bold; font-size: 1.05em;
+            text-decoration: none; margin-top: 12px; }
+  .wa { background: #25D366; color: #fff; }
+  .maps { background: #5a3d2b; color: #fff; }
+  footer { text-align: center; padding: 30px 16px; color: #9c7a5f;
+           font-size: .88em; }
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.9em; }
+    .galeri, .info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <span class="badge">📍 {{KOTA}}</span>
+  <h1>{{NAMA}}</h1>
+  <p>{{TAGLINE}}</p>
+</section>
+
+<div class="container">
+  <h2>Galeri</h2>
+  <p class="sub">Suasana &amp; andalan kami</p>
+  <div class="galeri">
+    <img src="{{FOTO1}}" alt="Suasana {{NAMA}}">
+    <img src="{{FOTO2}}" alt="Menu {{NAMA}}">
+    <img src="{{FOTO3}}" alt="Sudut {{NAMA}}">
+  </div>
+</div>
+
+<div class="container">
+  <h2>Menu Favorit</h2>
+  <p class="sub">Harga dapat berubah, tanyakan via WhatsApp ya!</p>
+  <div class="menu">
+{{MENU_ITEM}}
+  </div>
+</div>
+
+<div class="container">
+  <h2>Kunjungi Kami</h2>
+  <p class="sub">Kami tunggu kedatangannya ☕</p>
+  <div class="info-grid">
+    <div class="kartu">
+      <h3>📍 Alamat</h3>
+      <p>{{ALAMAT}}</p>
+      <a class="tombol maps" href="{{MAPS_LINK}}" target="_blank">
+        Buka di Google Maps</a>
+    </div>
+    <div class="kartu">
+      <h3>🕐 Jam Buka</h3>
+      <p>Setiap Hari<br>09.00 – 22.00 WIB</p>
+      <a class="tombol wa" href="{{WA_LINK}}" target="_blank">
+        Pesan / Reservasi via WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <b>{{NAMA}}</b> — {{KOTA}}<br>
+  Website demo dibuat oleh {{NAMA_ANDA}} · Hubungi {{WA_ANDA}} untuk
+  pembuatan website cafe seperti ini
+</footer>
+
+</body>
+</html>
