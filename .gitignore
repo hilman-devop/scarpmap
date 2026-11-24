@@ -47,3 +47,11 @@ logs/
 *.egg-info/
 .venv/
 
+# Local exports and machine-specific data.
+/hasil_*.xlsx
+/hasil_*.csv
+/hasil_*.json
+/aset_cafe/
+/demo_sites/
+/blast_wa.html
+/urutan_prospek.md
