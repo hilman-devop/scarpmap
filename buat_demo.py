@@ -1,13 +1,11 @@
-"""Generate website demo per cafe dari file Excel hasil ScrapMap.
+"""Generate draft cafe demo websites from a local prospect spreadsheet.
 
-Satu template (demo_template.html) diisi data tiap cafe (nama, alamat,
-WA, link Maps) lalu ditulis ke demo_sites/<nama-cafe>/index.html.
-Foto masih placeholder (picsum.photos) — GANTI dengan foto asli cafe
-dari Google Maps/Instagram mereka sebelum dikirim ke prospek!
+Generated sites contain business names, contacts, and map links. Keep them
+local and publish only with owner approval.
 
 Pemakaian:
-    python buat_demo.py hasil_jember.xlsx            # 5 demo teratas
-    python buat_demo.py hasil_jember.xlsx --jumlah 10
+    python buat_demo.py hasil_kota.xlsx            # 5 demo teratas
+    python buat_demo.py hasil_kota.xlsx --jumlah 10
 
 Upload isi tiap folder ke Netlify Drop (https://app.netlify.com/drop)
 untuk mendapatkan link demo gratis dalam hitungan detik.
@@ -22,8 +20,8 @@ import openpyxl
 # ---------------------------------------------------------------------------
 # WAJIB DIEDIT SEBELUM DIPAKAI
 # ---------------------------------------------------------------------------
-NAMA_ANDA = "Hilman Arifin Ilham"
-WA_ANDA = "+62 823-3048-2713"  # ditampilkan di footer demo
+NAMA_ANDA = "Nama Anda"
+WA_ANDA = "Nomor WhatsApp Anda"  # ditampilkan di footer demo
 
 KOL_NAMA, KOL_ALAMAT, KOL_WA, KOL_PETA = 2, 3, 5, 16
 

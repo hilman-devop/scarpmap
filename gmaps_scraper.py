@@ -2,7 +2,7 @@
 Scraper Google Maps untuk ScrapMap (tanpa API key).
 
 Menggunakan Playwright (browser Chromium otomatis) untuk:
-  1. Mencari query (mis. "cafe di Jember") di Google Maps
+  1. Mencari query (mis. "kafe di kota Anda") di Google Maps
   2. Scroll panel hasil sampai semua listing termuat
   3. Membuka tiap listing untuk mengambil nama, alamat, telepon, website,
      dan koordinat

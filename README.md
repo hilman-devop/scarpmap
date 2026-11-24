@@ -17,6 +17,8 @@ ScarpMap membantu riset prospek untuk agensi web: mencari bisnis berdasarkan are
 - Ekspor prospek ke Excel
 - Modul terpisah untuk scraping, ranking, aset, dan pembuatan demo
 
+Prospect exports, downloaded business photos and generated demos are local-only and excluded from Git. Use verified, owner-approved material when creating a demo.
+
 ## Teknologi
 
 - Python
@@ -29,7 +31,7 @@ ScarpMap membantu riset prospek untuk agensi web: mencari bisnis berdasarkan are
 
 ```bash
 pip install -r requirements.txt
-python scarpmap.py --kabupaten "Jember"
+python scrapmap.py --area "Kota Anda"
 ```
 
 ## Keamanan dan etika penggunaan

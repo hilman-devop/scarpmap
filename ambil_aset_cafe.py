@@ -141,7 +141,7 @@ def download(url: str, path: Path) -> bool:
 
 
 def main() -> None:
-    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_jember.xlsx"
+    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_kota.xlsx"
     jumlah = int(sys.argv[2]) if len(sys.argv) > 2 else 10
     filter_slug = sys.argv[3] if len(sys.argv) > 3 else None
 
@@ -168,7 +168,7 @@ def main() -> None:
                          "maps": str(link)})
     kandidat.sort(key=lambda k: -k["skor"])
     if filter_slug:
-        # dukung beberapa slug dipisah koma, mis. "perasa,navas"
+        # dukung beberapa slug dipisah koma, mis. "kafe-a,kafe-b"
         inc = [s.strip() for s in filter_slug.split(",") if s.strip()]
         kandidat = [k for k in kandidat
                     if any(s in slugify(k["nama"]) for s in inc)]

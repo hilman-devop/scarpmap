@@ -1,16 +1,7 @@
-"""Generator demo website PRO per cafe -- anti-template, anti-slop.
+"""Generate cafe demo websites from a local prospect spreadsheet and assets.
 
-Tiap cafe punya konfigurasi desain sendiri (tema warna dari identitas
-visualnya, pasangan font Google Fonts yang cocok dengan vibe, bentuk logo
-monogram, menu sesuai jenis usaha). Foto memakai foto ASLI dari Google
-Maps yang sudah diunduh oleh ambil_aset_cafe.py ke aset_cafe/<slug>/.
-
-Logo: jika aset_cafe/<slug>/logo.jpg ada (foto profil IG asli), dipakai.
-Jika tidak, dibuat monogram SVG tipografis yang disetel per tema.
-
-Pemakaian:
-    python buat_demo_pro.py hasil_jember.xlsx
-Output: demo_sites/<slug>/{index.html, logo.svg, img/...}
+Downloaded business photos, logos, and generated demos stay local; use
+owner-approved materials when publishing a demo.
 """
 
 import re
@@ -27,8 +18,8 @@ KOL_NAMA, KOL_ALAMAT, KOL_WA, KOL_PETA, KOL_IG = 2, 3, 5, 16, 10
 # ---------------------------------------------------------------------------
 # WAJIB DIEDIT SEBELUM DIPAKAI
 # ---------------------------------------------------------------------------
-NAMA_ANDA = "Hilman Arifin Ilham"
-WA_ANDA = "+62 823-3048-2713"
+NAMA_ANDA = "Nama Anda"
+WA_ANDA = "Nomor WhatsApp Anda"
 
 TAHUN = "2026"
 
@@ -93,317 +84,22 @@ def font_link(*families: str) -> str:
 
 
 TEMA = {
-    "slovv-coffee": {
-        # Signage hitam-putih modern, interior terang hangat -> dark elegan
-        "fonts": ("'Fraunces', Georgia, serif", "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Fraunces:opsz,wght@9..144,500;9..144,600",
-                               "family=Inter:wght@400;600;700"),
-        "bg": "#111113", "surface": "#1a1b1e", "text": "#f2efe9",
-        "muted": "#a9a49a", "accent": "#c9a25e", "accent_text": "#141312",
-        "hero_veil": "rgba(10,10,11,.88)", "hero_text": "#f5f2ec",
-        "radius": "6px", "radius_lg": "14px",
-        "tt_display": "none", "ls_display": "-0.01em", "fw_display": "600",
-        "tt_brand": "uppercase", "ls_brand": "0.14em",
-        "bentuk_logo": "circle",
-        "tagline": "Chill space di tengah Jember — tempat melambat, ngopi "
-                   "tenang, dan kerja tanpa buru-buru.",
-        "judul_tentang": "Ruang untuk Melambat",
-        "deskripsi": "Slovv adalah chill space bergaya modern minimalis di "
-                     "Jember. Interior terang, kursi nyaman, dan kopi yang "
-                     "diseduh serius — cocok untuk kerja, baca buku, atau "
-                     "sekadar kabur sebentar dari hiruk-pikuk.",
-        "jam": "10.00–23.00", "menu": MENU_KOPI,
-    },
-    "grand-cafe-jember": {
-        # Sofa merah, kayu, tegel klasik -> heritage hangat
-        "fonts": ("'Playfair Display', Georgia, serif",
-                  "'DM Sans', Arial, sans-serif"),
-        "font_link": font_link("family=Playfair+Display:wght@500;600;700",
-                               "family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700"),
-        "bg": "#faf4e8", "surface": "#f1e7d3", "text": "#2e2018",
-        "muted": "#6d5c4c", "accent": "#9e2b25", "accent_text": "#fbf5ea",
-        "hero_veil": "rgba(30,16,10,.82)", "hero_text": "#faf3e7",
-        "radius": "10px", "radius_lg": "18px",
+    "kafe-contoh": {
+        "fonts": ("Georgia, serif", "Arial, sans-serif"),
+        "font_link": "",
+        "bg": "#faf7f0", "surface": "#efe8db", "text": "#2e241c",
+        "muted": "#71665b", "accent": "#795548", "accent_text": "#ffffff",
+        "hero_veil": "rgba(20,14,10,.78)", "hero_text": "#fffaf2",
+        "radius": "8px", "radius_lg": "16px",
         "tt_display": "none", "ls_display": "0", "fw_display": "600",
-        "tt_brand": "none", "ls_brand": "0.02em",
-        "bentuk_logo": "arch",
-        "tagline": "Cafe & resto bernuansa klasik hangat — tempat keluarga "
-                   "dan cerita berkumpul di Jember.",
-        "judul_tentang": "Hangat Seperti Rumah",
-        "deskripsi": "Grand Cafe Jember memadukan sentuhan klasik dan "
-                     "kenyamanan rumahan: sofa empuk, kayu hangat, dan "
-                     "lantai tegel yang penuh karakter. Tempat yang pas "
-                     "untuk makan bersama keluarga atau ngobrol panjang.",
-        "jam": "09.00–22.00", "menu": MENU_EATERY,
-    },
-    "randevoo-coffee-jember": {
-        # Fasad beton putih, logo garis tipis -> minimal modern terang
-        "fonts": ("'Space Grotesk', Arial, sans-serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Space+Grotesk:wght@400;500;700",
-                               "family=Inter:wght@400;600"),
-        "bg": "#f7f7f5", "surface": "#ececea", "text": "#171717",
-        "muted": "#6f6f6c", "accent": "#171717", "accent_text": "#f7f7f5",
-        "hero_veil": "rgba(15,15,15,.78)", "hero_text": "#f7f7f5",
-        "radius": "2px", "radius_lg": "4px",
-        "tt_display": "uppercase", "ls_display": "0.06em", "fw_display": "500",
-        "tt_brand": "uppercase", "ls_brand": "0.22em",
-        "bentuk_logo": "minimal",
-        "tagline": "Coffee & space bergaya minimal — kopi jujur, ruang "
-                   "lapang, dan suasana yang bikin betah berlama-lama.",
-        "judul_tentang": "Sederhana, Sengaja",
-        "deskripsi": "Randevoo percaya hal baik tidak perlu berlebihan. "
-                     "Ruang beton terang, garis bersih, dan secangkir kopi "
-                     "yang dibuat dengan presisi — semua dirancang agar kamu "
-                     "fokus pada momennya.",
-        "jam": "09.00–22.00", "menu": MENU_KOPI,
-    },
-    "nugas-jember-coffee-food-and-space": {
-        # Taman outdoor + pendopo kayu -> natural hijau
-        "fonts": ("'DM Serif Display', Georgia, serif",
-                  "'Nunito Sans', Arial, sans-serif"),
-        "font_link": font_link("family=DM+Serif+Display",
-                               "family=Nunito+Sans:opsz,wght@6..12,400;6..12,700"),
-        "bg": "#f4f1e6", "surface": "#e8e3d2", "text": "#24301f",
-        "muted": "#5d6b54", "accent": "#4a6b3f", "accent_text": "#f6f4ea",
-        "hero_veil": "rgba(18,26,14,.8)", "hero_text": "#f4f2e8",
-        "radius": "12px", "radius_lg": "20px",
-        "tt_display": "none", "ls_display": "0", "fw_display": "400",
-        "tt_brand": "none", "ls_brand": "0.02em",
-        "bentuk_logo": "circle",
-        "tagline": "Nugas, makan, atau santai di taman — coffee, food & "
-                   "space paling adem di Jember.",
-        "judul_tentang": "Ademnya Nugas di Sini",
-        "deskripsi": "Sesuai namanya, Nugas dibuat untuk kamu yang butuh "
-                     "tempat produktif tanpa sumpek. Area taman outdoor, "
-                     "pendopo kayu, dan kopi terjangkau — andalan mahasiswa "
-                     "dan pekerja lepas Jember.",
-        "jam": "09.00–23.00", "menu": MENU_EATERY,
-    },
-    "discuss-space-coffee": {
-        # Fasad gelap, interior hangat, tempat nongkrong & diskusi
-        "fonts": ("'Sora', Arial, sans-serif", "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Sora:wght@400;600;700",
-                               "family=Inter:wght@400;600"),
-        "bg": "#16130f", "surface": "#211c16", "text": "#f3ede2",
-        "muted": "#b3a692", "accent": "#e0a458", "accent_text": "#1c150c",
-        "hero_veil": "rgba(12,9,6,.85)", "hero_text": "#f5efe4",
-        "radius": "999px", "radius_lg": "26px",
-        "tt_display": "none", "ls_display": "-0.02em", "fw_display": "700",
-        "tt_brand": "lowercase", "ls_brand": "0.04em",
-        "bentuk_logo": "circle",
-        "tagline": "Space & coffee untuk diskusi panjang, kerja kelompok, "
-                   "dan obrolan yang tidak selesai-selesai.",
-        "judul_tentang": "Datang untuk Kopinya, Tinggal untuk Obrolannya",
-        "deskripsi": "Discuss adalah ruang bertemu di jantung Jember: "
-                     "interior hangat, meja-meja nyaman untuk berdiskusi, "
-                     "dan kopi yang menemani sampai obrolan usai.",
-        "jam": "10.00–23.00", "menu": MENU_KOPI,
-        "skip_foto": [1],  # img01 = screenshot UI ponsel
-    },
-    "kedai-kopi-wijaya-sumbersari-by-pak-yon-": {
-        # Kopi gelas klasik, kayu gelap -> kedai kopi rustic
-        "fonts": ("'Lora', Georgia, serif",
-                  "'Source Sans 3', Arial, sans-serif"),
-        "font_link": font_link("family=Lora:wght@500;600;700",
-                               "family=Source+Sans+3:wght@400;600;700"),
-        "bg": "#f6efe1", "surface": "#ece0c9", "text": "#33231a",
-        "muted": "#7a6753", "accent": "#8c4a1f", "accent_text": "#faf3e6",
-        "hero_veil": "rgba(32,20,10,.82)", "hero_text": "#f8f1e3",
-        "radius": "8px", "radius_lg": "14px",
-        "tt_display": "none", "ls_display": "0", "fw_display": "600",
-        "tt_brand": "none", "ls_brand": "0.02em",
-        "bentuk_logo": "circle",
-        "tagline": "Kedai kopi legendaris Sumbersari — kopi tubruk dan "
-                   "suasana ngopi yang sesungguhnya.",
-        "judul_tentang": "Ngopi Seperti Dulu, Rasanya Tetap Juara",
-        "deskripsi": "Kedai Kopi Wijaya menjaga tradisi ngopi yang jujur: "
-                     "biji pilihan Pak Yon Coffee Supply, diseduh sederhana, "
-                     "disajikan hangat. Tempat di mana kopi masih jadi alasan "
-                     "utama untuk datang.",
-        "jam": "08.00–22.00", "menu": MENU_KOPI,
-    },
-    "tigakata": {
-        # Beton ekspos + terracotta -> industrial earthy
-        "fonts": ("'Archivo', Arial, sans-serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Archivo:wght@500;700;800",
-                               "family=Inter:wght@400;600"),
-        "bg": "#efe9df", "surface": "#e2d9cb", "text": "#2a241d",
-        "muted": "#76695a", "accent": "#b4552d", "accent_text": "#faf3e9",
-        "hero_veil": "rgba(30,22,14,.8)", "hero_text": "#f3ecdf",
-        "radius": "2px", "radius_lg": "6px",
-        "tt_display": "uppercase", "ls_display": "0.04em", "fw_display": "800",
-        "tt_brand": "uppercase", "ls_brand": "0.2em",
-        "bentuk_logo": "sharp",
-        "tagline": "Tiga kata, satu tempat: kopi, ruang, dan cerita — di "
-                   "tengah tekstur beton dan tanah liat Jember.",
-        "judul_tentang": "Mentah Itu Jujur",
-        "deskripsi": "TIGAKATA merangkul material apa adanya: dinding beton "
-                     "ekspos, lengkung bata, dan cahaya sore yang masuk "
-                     "perlahan. Tempat ngopi untuk kamu yang suka ruang "
-                     "berkarakter.",
-        "jam": "10.00–23.00", "menu": MENU_KOPI,
-    },
-    "fox-coffee-roastery": {
-        # Taman rimbun + pintu merah vintage -> eklektik hangat
-        "fonts": ("'Fraunces', Georgia, serif", "'Karla', Arial, sans-serif"),
-        "font_link": font_link("family=Fraunces:opsz,wght@9..144,500;9..144,700",
-                               "family=Karla:wght@400;600;700"),
-        "bg": "#f7f2e7", "surface": "#ede4d2", "text": "#2b2118",
-        "muted": "#71624f", "accent": "#a03528", "accent_text": "#faf3e6",
-        "hero_veil": "rgba(25,16,10,.8)", "hero_text": "#f7f1e4",
-        "radius": "10px", "radius_lg": "16px",
-        "tt_display": "none", "ls_display": "0", "fw_display": "700",
-        "tt_brand": "none", "ls_brand": "0.03em",
-        "bentuk_logo": "arch",
-        "tagline": "Coffee & roastery di tengah taman rimbun — biji disangrai "
-                   "sendiri, diseduh dengan bangga.",
-        "judul_tentang": "Dari Roastery ke Cangkirmu",
-        "deskripsi": "Fox Coffee & Roastery menyangrai bijinya sendiri, lalu "
-                     "menyeduhnya di ruang hijau yang teduh dan penuh "
-                     "karakter. Tempat untuk penikmat kopi yang ingin tahu "
-                     "dari mana kopinya berasal.",
-        "jam": "09.00–22.00", "menu": MENU_KOPI,
-    },
-    "xoxo-toko": {
-        # Fasad kayu emas + wisteria ungu -> elegan playful (gelato)
-        "fonts": ("'Playfair Display', Georgia, serif",
-                  "'Jost', Arial, sans-serif"),
-        "font_link": font_link("family=Playfair+Display:ital,wght@0,500;0,700;1,500",
-                               "family=Jost:wght@400;500;600"),
-        "bg": "#fbf7f0", "surface": "#f3ead9", "text": "#2e2436",
-        "muted": "#7d7286", "accent": "#b98a2f", "accent_text": "#fffaf0",
-        "hero_veil": "rgba(28,20,34,.8)", "hero_text": "#faf5ef",
-        "radius": "18px", "radius_lg": "28px",
-        "tt_display": "none", "ls_display": "0", "fw_display": "700",
-        "tt_brand": "uppercase", "ls_brand": "0.18em",
-        "bentuk_logo": "circle",
-        "tagline": "Toko, cafe & gelato — manisnya jajan cantik di bawah "
-                   "kanopi wisteria Jember.",
-        "judul_tentang": "Tempat Jajan Paling Cantik",
-        "deskripsi": "XOXO memadukan toko, cafe, dan gelato dalam satu bangunan "
-                     "yang memikat: panel kayu keemasan, bunga wisteria, dan "
-                     "gelato yang dibuat segar. Datang untuk fotonya, kembali "
-                     "untuk rasanya.",
-        "jam": "10.00–22.00", "menu": MENU_GELATO,
-    },
-    "kopi-kampus-jember": {
-        # Mural jalanan "NEVER QUIT" -> bold street muda
-        "fonts": ("'Bebas Neue', 'Arial Narrow', sans-serif",
-                  "'Space Grotesk', Arial, sans-serif"),
-        "font_link": font_link("family=Bebas+Neue",
-                               "family=Space+Grotesk:wght@400;500;700"),
-        "bg": "#f5f5f0", "surface": "#e8e8e0", "text": "#141414",
-        "muted": "#5c5c56", "accent": "#d43d2a", "accent_text": "#fdfaf4",
-        "hero_veil": "rgba(10,10,10,.8)", "hero_text": "#f6f6f0",
-        "radius": "0px", "radius_lg": "0px",
-        "tt_display": "uppercase", "ls_display": "0.03em", "fw_display": "400",
-        "tt_brand": "uppercase", "ls_brand": "0.16em",
-        "bentuk_logo": "sharp",
-        "tagline": "Kopi mahasiswa, harga bersahabat — basecamp nugas dan "
-                   "nongkrong paling ramah kantong di Jember.",
-        "judul_tentang": "Never Quit, Ngopi Dulu",
-        "deskripsi": "Kopi Kampus lahir dari semangat anak muda Jember: kopi "
-                     "enak tanpa bikin dompet menangis, tempat luas untuk "
-                     "nugas, rapat organisasi, atau sekadar istirahat di "
-                     "sela kuliah.",
-        "jam": "10.00–23.00", "menu": MENU_KOPI,
-    },
-    "perasa-coffee-eatery": {
-        # Fasad hitam-putih modern, konter kuning backlight, meja kerja laptop
-        # -> modern hangat rapi, aksen mustard
-        "fonts": ("'Plus Jakarta Sans', Arial, sans-serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Plus+Jakarta+Sans:wght@500;700;800",
-                               "family=Inter:wght@400;600"),
-        "bg": "#faf6ee", "surface": "#f1e9d8", "text": "#241c10",
-        "muted": "#7a6c54", "accent": "#d99a2b", "accent_text": "#231a0c",
-        "hero_veil": "rgba(24,16,6,.85)", "hero_text": "#faf3e6",
-        "radius": "14px", "radius_lg": "24px",
-        "tt_display": "none", "ls_display": "-0.02em", "fw_display": "800",
-        "tt_brand": "lowercase", "ls_brand": "0",
-        "bentuk_logo": "square",
-        "tagline": "Coffee & eatery modern di Jember — tempat kerja, nugas, "
-                   "dan jeda sore yang selalu terasa pas.",
-        "judul_tentang": "Rasa yang Bikin Kembali",
-        "deskripsi": "Perasa memadukan kopi susu andalan, camilan hangat, "
-                     "dan suasana kerja yang nyaman: colokan melimpah, WiFi "
-                     "kencang, dan konter kuning ikonik yang jadi ciri "
-                     "khasnya.",
-        "jam": "10.00–22.00", "menu": MENU_EATERY,
-    },
-    "dekatsini-coffee-eatery": {
-        # Beton putih + furnitur hitam + meja kayu -> industrial hangat gelap
-        "fonts": ("'Bricolage Grotesque', Arial, sans-serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700",
-                               "family=Inter:wght@400;600"),
-        "bg": "#141517", "surface": "#1d1e21", "text": "#eae7e0",
-        "muted": "#9d998f", "accent": "#c87343", "accent_text": "#17110b",
-        "hero_veil": "rgba(10,10,12,.86)", "hero_text": "#efede7",
-        "radius": "4px", "radius_lg": "10px",
-        "tt_display": "uppercase", "ls_display": "0.02em", "fw_display": "700",
-        "tt_brand": "uppercase", "ls_brand": "0.18em",
-        "bentuk_logo": "minimal",
-        "tagline": "Sesuai namanya — kopi dan makanan enak yang selalu "
-                   "'dekat sini' dari aktivitasmu di Jember.",
-        "judul_tentang": "Selalu Dekat, Selalu Pas",
-        "deskripsi": "Dekatsini menghadirkan suasana industrial yang hangat: "
-                     "beton, kayu, dan lampu temaram. Tempat singgah cepat "
-                     "atau duduk lama — kopi, rice bowl, dan camilan selalu "
-                     "siap menemani.",
-        "jam": "10.00–22.00", "menu": MENU_EATERY,
-    },
-    "navas": {
-        # Bangunan kaca + taman rimbun, foto malam lampu hangat, rice bowl
-        # -> elegan taman malam: hijau gelap + emas
-        "fonts": ("'Marcellus', Georgia, serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Marcellus",
-                               "family=Inter:wght@400;600"),
-        "bg": "#101a15", "surface": "#182620", "text": "#ece7d8",
-        "muted": "#9aa892", "accent": "#c8a45c", "accent_text": "#131a10",
-        "hero_veil": "rgba(8,14,10,.86)", "hero_text": "#f2eddd",
-        "radius": "10px", "radius_lg": "18px",
-        "tt_display": "none", "ls_display": "0.02em", "fw_display": "400",
-        "tt_brand": "uppercase", "ls_brand": "0.28em",
-        "bentuk_logo": "circle",
-        "tagline": "Coffee & eatery di tengah taman — meja marmer, tanaman "
-                   "rimbun, dan malam Jember yang hangat.",
-        "judul_tentang": "Makan Enak di Tengah Taman",
-        "deskripsi": "Navas adalah oase di tengah kota: bangunan kaca yang "
-                     "dikelilingi taman, lampu hangat saat malam, dan menu "
-                     "rice bowl hingga camilan yang cocok untuk makan malam "
-                     "santai maupun kumpul keluarga.",
-        "jam": "10.00–22.00", "menu": MENU_EATERY,
-    },
-    "soen-coffee-eatery": {
-        # Signage 'soen' bulat hijau menyala, bata ekspos, pasta/toast/rice
-        # -> kasual segar hijau, ramah dan playful
-        "fonts": ("'Poppins', Arial, sans-serif",
-                  "'Inter', Arial, sans-serif"),
-        "font_link": font_link("family=Poppins:wght@500;600;700",
-                               "family=Inter:wght@400;600"),
-        "bg": "#fbf9f3", "surface": "#f0ede1", "text": "#22301f",
-        "muted": "#6f7a66", "accent": "#3e8f4f", "accent_text": "#f7faf2",
-        "hero_veil": "rgba(16,26,16,.82)", "hero_text": "#f4f7ee",
-        "radius": "999px", "radius_lg": "22px",
-        "tt_display": "none", "ls_display": "-0.01em", "fw_display": "600",
-        "tt_brand": "lowercase", "ls_brand": "0.01em",
-        "bentuk_logo": "circle",
-        "tagline": "Coffee & eatery yang segar dan ramah — dari pasta, "
-                   "toast, sampai nasi goreng, semua dibuat dengan senang.",
-        "judul_tentang": "Tempat Cerah untuk Hari Apa Pun",
-        "deskripsi": "Soen menyambut dengan signage hijau ikonik dan interior "
-                     "bata yang hangat. Menu beragam dari kopi, pasta, "
-                     "sampai dessert — pas untuk brunch, kerja santai, atau "
-                     "makan malam bareng teman.",
-        "jam": "10.00–22.00", "menu": MENU_EATERY,
+        "tt_brand": "none", "ls_brand": "0", "bentuk_logo": "circle",
+        "tagline": "Ruang untuk menikmati kopi dan berbagi cerita.",
+        "judul_tentang": "Tentang Kafe Contoh",
+        "deskripsi": "Contoh tampilan. Ganti dengan informasi yang sudah diverifikasi oleh pemilik usaha.",
+        "jam": "Jam operasional diisi pemilik usaha",
+        "menu": [("Menu Contoh", [("Minuman Contoh", "Nama, deskripsi, dan harga diisi pemilik usaha", "Harga")])],
     },
 }
-
-
 def slugify(teks: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", teks.lower()).strip("-")[:40] or "cafe"
 
@@ -561,7 +257,7 @@ def format_wa(wa: str) -> str:
 
 
 def main() -> None:
-    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_jember.xlsx"
+    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_kota.xlsx"
     kota = re.sub(r"^hasil_|\.xlsx$", "", Path(path).stem).title() or "Kota"
     template = Path("demo_template_pro.html").read_text(encoding="utf-8")
 
@@ -584,8 +280,8 @@ def main() -> None:
         }
 
     dibuat = 0
-    for slug, tema in TEMA.items():
-        d = data.get(slug)
+    for slug, d in data.items():
+        tema = TEMA["kafe-contoh"]
         aset = Path("aset_cafe") / slug
         if not d or not aset.is_dir():
             print(f"[SKIP] {slug}: data/aset tidak ada")
@@ -653,10 +349,7 @@ def main() -> None:
                .replace("{{WA_LINK}}", wa_link)
                .replace("{{WA_LABEL}}", wa_label)
                .replace("{{WA_DISPLAY}}", wa_disp)
-               .replace("{{TAHUN}}", TAHUN)
-               .replace("{{NAMA_ANDA}}", NAMA_ANDA)
-               .replace("{{WA_ANDA_LINK}}", re.sub(r"\D", "", WA_ANDA))
-               .replace("{{WA_ANDA}}", WA_ANDA))
+               .replace("{{TAHUN}}", TAHUN))
         if logo_src == "logo.jpg":
             hal = hal.replace("logo.svg", "logo.jpg")
 

@@ -10,7 +10,7 @@ Skor:
   -20  tanpa kontak sama sekali -- tidak bisa di-outreach
 
 Pemakaian:
-    python rank_cafe.py hasil_jember.xlsx
+    python rank_cafe.py hasil_kota.xlsx
 Output: urutan_prospek.md + ringkasan ke terminal.
 """
 
@@ -70,7 +70,7 @@ def skor_cafe(nama: str, wa: str | None, ig: str,
 
 
 def main() -> None:
-    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_jember.xlsx"
+    path = sys.argv[1] if len(sys.argv) > 1 else "hasil_kota.xlsx"
     wb = openpyxl.load_workbook(path)
     ws = wb["Prospek Cafe"]
 

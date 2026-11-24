@@ -12,7 +12,7 @@ membuka keduanya.
 
 1. **Jual kerugian, bukan keuntungan** — "calon pelanggan yang googling malah
    mampir ke cafe sebelah karena info cafe Kakak tidak lengkap".
-2. **Skenario konkret lokal** — Jember kota pelajar; tiap semester ribuan
+2. **Skenario konkret lokal** — wilayah dengan banyak mahasiswa; setiap tahun banyak
    mahasiswa baru mencari cafe lewat Google. Yang menang = yang punya
    menu + foto + jam buka yang bisa dicari.
 3. **ROI bahasa warung** — "2 pelanggan tambahan/hari × Rp25rb = Rp1,5jt/bulan.
@@ -69,7 +69,7 @@ Perkenalkan, saya {nama_anda} dari {kota_anda}. Saya menemukan
 
 Sekalian izin menawarkan: saya perhatikan {nama_cafe} belum punya
 website resmi. Sayang sekali — tiap hari ada calon pelanggan yang
-googling menu & jam buka cafe di Jember, lalu mampir ke cafe lain
+googling menu & jam buka kafe di kota Anda, lalu mampir ke cafe lain
 yang infonya lebih lengkap.
 
 Saya bisa bantu buatkan website sederhana khusus cafe, isinya:
@@ -140,7 +140,7 @@ Terima kasih, Kak. Sukses terus untuk {nama_cafe}! ☕
 ## Cara Pakai Generator
 
 ```powershell
-python buat_blast_wa.py hasil_jember.xlsx
+python buat_blast_wa.py hasil_kota.xlsx
 # menghasilkan blast_wa.html -> buka di browser -> klik nomor satu per satu
 # -> WhatsApp terbuka dengan pesan SUDAH TERISI -> tinggal tekan Kirim
 ```
@@ -152,7 +152,7 @@ python buat_blast_wa.py hasil_jember.xlsx
 | "Sudah ada Instagram" | "IG itu numpang Kak — akun bisa kena suspend dan jangkauannya diatur algoritma. Website milik sendiri, muncul di pencarian Google, dan bisa ditaruh di bio IG. Keduanya saling melengkapi, bukan ganti-gantian." |
 | "Mahal ya?" | "Simpelnya begini Kak: kalau websitenya hanya bawa 2 pelanggan tambahan per hari, biayanya balik modal dalam hitungan minggu. Dan Kakak bayar setelah website jadi & cocok, jadi nol risiko." |
 | "Saya tidak ngerti teknologi" | "Justru itu Kak — Kakak tidak perlu menyentuh apa pun. Semua saya urus, Kakak tinggal terima link dan sesekali kirim foto menu baru kalau mau update." |
-| "Nanti saja deh" | "Siap Kak, santai saja 😊 Sebagai gambaran: tiap bulan ada mahasiswa/pendatang baru di Jember yang mencari cafe lewat Google — makin cepat onlinenya, makin cepat mereka menemukan cafe Kakak. Tapi tidak ada tekanan, kabari saja kapan pun siap." |
+| "Nanti saja deh" | "Siap Kak, santai saja 😊 Sebagai gambaran: tiap bulan ada mahasiswa/pendatang baru di area setempat yang mencari cafe lewat Google — makin cepat onlinenya, makin cepat mereka menemukan cafe Kakak. Tapi tidak ada tekanan, kabari saja kapan pun siap." |
 | "Bisa lihat contohnya?" | Kirim link demo/portfolio. (Ini alasan demo harus disiapkan SEBELUM blast.) |
 | "Kamu dari mana dapat nomor saya?" | "Dari Google Maps Kak — nomornya memang tercantum publik di profil cafe Kakak. Saya hubungi karena cafenya menarik dan belum punya website." |
 

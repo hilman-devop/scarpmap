@@ -10,9 +10,9 @@ Semua link website & sosmed DIVALIDASI otomatis via HTTP:
 link yang 404 / mati dibuang dari hasil agar data tetap valid.
 
 Cara pakai:
-    python scrapmap.py --area "Jember"
-    python scrapmap.py --area "Jember" --google-key "API_KEY"
-    python scrapmap.py --area "Jember" --format csv
+    python scrapmap.py --area "Kota Anda"
+    python scrapmap.py --area "Kota Anda" --google-key "API_KEY"
+    python scrapmap.py --area "Kota Anda" --format csv
 """
 
 import argparse
@@ -885,7 +885,7 @@ def main():
         "lengkap dengan sosmed, kontak valid, dan alamat."
     )
     parser.add_argument("--area", required=True,
-                        help='Nama kabupaten/kota, contoh: "Jember"')
+                        help='Nama kabupaten/kota, contoh: "Kota Anda"')
     parser.add_argument("--output", default=None,
                         help="Nama file output (default: hasil_<area>.xlsx)")
     parser.add_argument("--format", choices=["xlsx", "csv", "json"], default="xlsx",

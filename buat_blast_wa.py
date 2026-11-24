@@ -5,7 +5,7 @@ SUDAH TERISI otomatis (tinggal tekan Kirim). Status terkirim dicatat di
 localStorage browser sehingga tidak ada yang terkirim dua kali.
 
 Pemakaian:
-    python buat_blast_wa.py hasil_jember.xlsx
+    python buat_blast_wa.py hasil_kota.xlsx
 """
 
 import html
@@ -18,8 +18,8 @@ import openpyxl
 # ---------------------------------------------------------------------------
 # WAJIB DIEDIT SEBELUM DIPAKAI
 # ---------------------------------------------------------------------------
-NAMA_ANDA = "Hilman Arifin Ilham"
-KOTA_ANDA = "Jember"
+NAMA_ANDA = "Nama Anda"
+KOTA_ANDA = "Kota Anda"
 
 TEMPLATE = """Halo Kak, selamat siang 🙏
 

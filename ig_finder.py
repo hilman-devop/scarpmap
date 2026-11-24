@@ -7,8 +7,8 @@ captcha untuk bot, dan halaman profil IG anonim TIDAK bisa membedakan akun
 ada vs tidak ada (semua status 200, konten JS-render identik).
 
 Strategi yang tersisa dan VALID: "handle guessing + validasi API internal"
-  1. Buat kandidat handle dari nama cafe, mis. "Kolong Cafe" di Jember ->
-     kolong, kolongcafe, kolong.jember, kolongjember, kolong_jember
+  1. Buat kandidat handle dari nama cafe, mis. "Kafe Contoh" di area setempat ->
+     kafecontoh, kafe.contoh, kafe_contoh
   2. Validasi tiap kandidat lewat endpoint internal Instagram
      (api/v1/users/web_profile_info, dipakai web IG sendiri):
        - 404 -> akun tidak ada, lanjut kandidat berikutnya
@@ -38,7 +38,7 @@ REQUEST_TIMEOUT = 15
 # kata generik yang tidak dipakai untuk inti handle
 KATA_GENERIK = {
     "cafe", "kafe", "coffee", "kopi", "eatery", "resto", "restaurant",
-    "and", "the", "di", "co", "id", "official", "jember",
+    "and", "the", "di", "co", "id", "official",
 }
 
 
